@@ -20,6 +20,7 @@ class TwitterClient: BDBOAuth1SessionManager {
         
         self.loginSuccess = success
         self.loginFailure = failure
+        
         deauthorize()
         fetchRequestTokenWithPath("/oauth/request_token", method: "GET", callbackURL: NSURL(string: "twitty://oauth"), scope: nil, success: { (requestToken: BDBOAuth1Credential!) -> Void in
             let url = NSURL(string: "https://api.twitter.com/oauth/authorize?oauth_token=\(requestToken.token)")!
@@ -90,5 +91,22 @@ class TwitterClient: BDBOAuth1SessionManager {
             }, failure: { (task: NSURLSessionDataTask?, error: NSError) -> Void in
             print("error: \(error.localizedDescription)")
         })
+    }
+    
+    func tweet(tweet: String, reply_to: String, success: () -> (), failure: (NSError) -> ()) {
+        
+        var payload = ["status": tweet]
+        if (reply_to.characters.count > 0) {
+            payload["in_reply_to_status_id"] = reply_to
+        }
+        
+        POST("/1.1/statuses/update.json", parameters: payload, progress: nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+            print(response)
+            success()
+        }, failure: { (task: NSURLSessionDataTask?, error: NSError) -> Void in
+            print("error: \(error.localizedDescription)")
+            failure(error)
+        })
+    
     }
 }

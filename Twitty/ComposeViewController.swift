@@ -38,12 +38,19 @@ class ComposeViewController: UIViewController {
     */
 
     @IBAction func onSendAction(sender: AnyObject) {
-        print("onSend~")
+        
         if (self.composeTextField.text?.characters.count > 0) {
-            print("there are words")
-            TwitterClient.sharedInstance.updateStatus(self.composeTextField.text!, in_reply_to_status_id: "")}
-        else {
-            print("there are no words")
+            TwitterClient.sharedInstance.tweet(self.composeTextField.text!, reply_to: "", success: {
+                print("on send action success!")
+                self.composeTextField.textColor = UIColor.blackColor()
+                self.composeTextField.text = ""
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }, failure: { (NSError) in
+                self.composeTextField.text = "something went wrong, try again"
+                self.composeTextField.textColor = UIColor.redColor()
+            })
+            //TwitterClient.sharedInstance.updateStatus(self.composeTextField.text!, in_reply_to_status_id: "")}
+        } else {
             self.composeTextField.text = "type something..."
             self.composeTextField.textColor = UIColor.grayColor()
         }
