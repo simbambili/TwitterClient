@@ -75,7 +75,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Timestamp" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qyT-ro-uzA">
-                                            <rect key="frame" x="178" y="9.5" width="134" height="12"/>
+                                            <rect key="frame" x="258.5" y="9" width="53.5" height="12"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
@@ -92,9 +92,8 @@
                                         <constraint firstItem="YBf-33-toJ" firstAttribute="leading" secondItem="y0S-h2-oFy" secondAttribute="leadingMargin" id="PfQ-1n-Tbi"/>
                                         <constraint firstItem="bs7-ew-HSf" firstAttribute="trailing" secondItem="y0S-h2-oFy" secondAttribute="trailingMargin" constant="8" id="QBU-6k-cLM"/>
                                         <constraint firstItem="bs7-ew-HSf" firstAttribute="top" secondItem="YBf-33-toJ" secondAttribute="top" id="aYj-k8-yWs"/>
-                                        <constraint firstItem="qyT-ro-uzA" firstAttribute="leading" secondItem="iIA-6Z-0nD" secondAttribute="trailing" constant="109" id="aiC-CT-B5b"/>
                                         <constraint firstItem="iIA-6Z-0nD" firstAttribute="top" secondItem="y0S-h2-oFy" secondAttribute="top" constant="8" id="rA8-bP-nPU"/>
-                                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="YBf-33-toJ" secondAttribute="bottom" constant="40" id="wNI-12-7ka"/>
+                                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="YBf-33-toJ" secondAttribute="bottom" constant="8" id="wNI-12-7ka"/>
                                         <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="bs7-ew-HSf" secondAttribute="bottom" constant="8" id="ydZ-xo-Wob"/>
                                     </constraints>
                                 </tableViewCellContentView>

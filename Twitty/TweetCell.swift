@@ -21,8 +21,8 @@ class TweetCell: UITableViewCell {
     
     var tweet: Tweet! {
         didSet{
-            //self.profileImage.setImageWithURL(tweet.profileImageURL!)
-            //self.usernameLabel.text = tweet.username!
+            self.profileImage.setImageWithURL(tweet.profileImageURL!)
+            self.usernameLabel.text = tweet.username!
             self.messageLabel.text = tweet.text!
             self.messageLabel.sizeToFit()
             self.timestampLabel.text = String(tweet.timestamp!)

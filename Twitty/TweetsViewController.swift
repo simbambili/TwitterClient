@@ -14,15 +14,20 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var tweets = [Tweet]()
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        
+        // Do any additional setup after loading the view.
         self.tweetsTableView.delegate = self
         self.tweetsTableView.dataSource = self
         self.tweetsTableView.rowHeight = UITableViewAutomaticDimension
         self.tweetsTableView.estimatedRowHeight = 100
         self.refreshTweets()
         
-
-        // Do any additional setup after loading the view.
+        // Initialize a UIRefreshControl
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), forControlEvents: UIControlEvents.ValueChanged)
+        self.tweetsTableView.insertSubview(refreshControl, atIndex: 0)
     }
 
     override func didReceiveMemoryWarning() {
@@ -44,11 +49,11 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         TwitterClient.sharedInstance.homeTimeLine({ (tweets: [Tweet]) -> () in
             self.tweets = tweets
-            for tweet in self.tweets {
-                print("======================================================")
-                print(tweet.text)
-                print("======================================================\n")
-            }
+//            for tweet in self.tweets {
+//                print("======================================================")
+//                print(tweet.username)
+//                print("======================================================\n")
+//            }
             self.tweetsTableView.reloadData()
         }) { (error: NSError) in
                 print(error.localizedDescription)
@@ -65,5 +70,13 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         // Pass the selected object to the new view controller.
     }
     */
+    
+    // Makes a network request to get updated data
+    // Updates the tableView with the new data
+    // Hides the RefreshControl
+    func refreshControlAction(refreshControl: UIRefreshControl) {
+        self.refreshTweets()
+        refreshControl.endRefreshing()
+    }
 
 }
