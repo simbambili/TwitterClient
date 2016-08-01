@@ -36,7 +36,7 @@ class TwitterClient: BDBOAuth1SessionManager {
         
         GET("/1.1/statuses/home_timeline.json", parameters: nil, success: {
             (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
-            print("account: \(response)")
+            //print("account: \(response)")
             let dictionaries = response as! [NSDictionary]
             let tweets = Tweet.tweetsWithArray(dictionaries)
             success(tweets)
@@ -72,5 +72,21 @@ class TwitterClient: BDBOAuth1SessionManager {
         }) { (error: NSError!) -> Void in
             self.loginFailure?(error)
         }
+    }
+    
+    func updateStatus(tweet: String, in_reply_to_status_id: String){
+        var payload = ["status": tweet]
+        
+        if in_reply_to_status_id.characters.count > 0 {
+            payload["in_reply_to_status_id"] = in_reply_to_status_id
+        }
+        
+        POST("/1.1/statuses/update.json", parameters: tweet, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+            print("Tweet response: \(response)")
+            
+        }, failure: { (task: NSURLSessionDataTask?, error: NSError) -> Void in
+            print("error: \(error.localizedDescription)")
+        })
+
     }
 }

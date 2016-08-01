@@ -11,6 +11,8 @@ import UIKit
 class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet var tweetsTableView: UITableView!
+    @IBOutlet weak var tweetTextField: UITextField!
+    
     var tweets = [Tweet]()
     
     override func viewDidLoad() {
@@ -45,15 +47,15 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return cell
     }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.tweetsTableView.deselectRowAtIndexPath(indexPath, animated: true)
+        self.tweetsTableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+    }
+    
     func refreshTweets(){
         
         TwitterClient.sharedInstance.homeTimeLine({ (tweets: [Tweet]) -> () in
             self.tweets = tweets
-//            for tweet in self.tweets {
-//                print("======================================================")
-//                print(tweet.username)
-//                print("======================================================\n")
-//            }
             self.tweetsTableView.reloadData()
         }) { (error: NSError) in
                 print(error.localizedDescription)
@@ -79,4 +81,15 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         refreshControl.endRefreshing()
     }
 
+    @IBAction func OnComposeTweetAction(sender: AnyObject) {
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let tweetDetailsViewController = segue.destinationViewController as! TweetDetailsViewController
+        let indexPath = self.tweetsTableView.indexPathForCell(sender as! UITableViewCell)
+        let tweet = self.tweets[indexPath!.row]
+        tweetDetailsViewController.username = tweet.username
+        tweetDetailsViewController.message = tweet.text
+        
+    }
 }
