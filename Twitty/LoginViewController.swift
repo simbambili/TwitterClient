@@ -23,9 +23,9 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func onLoginButton(sender: AnyObject) {
-        let twitterClient = TwitterClient.sharedInstance
-        twitterClient.login({ () -> () in
+        TwitterClient.sharedInstance.login({ () -> () in
             print("I have logged in")
+            self.performSegueWithIdentifier("loginSegue", sender: nil)
         }) { (error: NSError) -> () in
                 print("error: \(error.localizedDescription)")
         }
