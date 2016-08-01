@@ -47,18 +47,18 @@ class TwitterClient: BDBOAuth1SessionManager {
 
     }
     
-    func currentAccount() {
+    func currentAccount(success: (User) -> (), failure: (NSError) -> ()) {
         
         GET("/1.1/account/verify_credentials.json", parameters: nil, progress: nil, success: {
             (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
             //print("account: \(response)")
             let userDicitionary = response as! NSDictionary
             let user = User(dictionary: userDicitionary)
-            print("user name: \(user.name)")
+            success(user)
             
             
             }, failure: { (task: NSURLSessionDataTask?, error: NSError) -> Void in
-                print("error: \(error.localizedDescription)")
+                failure(error)
         })
 
     }
@@ -67,6 +67,12 @@ class TwitterClient: BDBOAuth1SessionManager {
         let requestToken = BDBOAuth1Credential(queryString: url.query)
         fetchAccessTokenWithPath("/oauth/access_token", method: "POST", requestToken: requestToken, success: { (accessToken: BDBOAuth1Credential!) -> Void in
             print("I got the access token")
+            self.currentAccount({ (user: User) -> () in
+                User.currentUser = user
+                self.loginSuccess?()
+            }, failure: { (error: NSError) -> () in
+                self.loginFailure?(error)
+            })
             self.loginSuccess?()
             
         }) { (error: NSError!) -> Void in
@@ -84,13 +90,5 @@ class TwitterClient: BDBOAuth1SessionManager {
             }, failure: { (task: NSURLSessionDataTask?, error: NSError) -> Void in
             print("error: \(error.localizedDescription)")
         })
-        
-//        POST("/1.1/statuses/update.json", parameters: payload, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
-//            print("Tweet response: \(response)")
-//            
-//        }, failure: { (task: NSURLSessionDataTask?, error: NSError) -> Void in
-//            print("error: \(error.localizedDescription)")
-//        })
-
     }
 }
