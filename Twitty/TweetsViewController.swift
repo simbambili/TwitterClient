@@ -81,8 +81,6 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         refreshControl.endRefreshing()
     }
 
-    @IBAction func OnComposeTweetAction(sender: AnyObject) {
-    }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let tweetDetailsViewController = segue.destinationViewController as! TweetDetailsViewController
